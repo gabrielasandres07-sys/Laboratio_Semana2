@@ -32,6 +32,14 @@ public class formulario extends javax.swing.JFrame {
         initComponents();
         biblioteca = new Biblioteca();
         modeloTabla = (DefaultTableModel) tablaMateriales.getModel();
+        modeloTabla.setColumnIdentifiers(new String[]{
+            "Código", "Título", "Tipo", "Año", "Imagen", "Disponibilidad", "Dato Específico"
+        });
+        cbMaterialesDisponibles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarPlazoSeleccionado();
+            }
+        });
         actualizarCamposPorTipo();
         actualizarInterfaz();
     }
@@ -541,20 +549,26 @@ public class formulario extends javax.swing.JFrame {
                     "Sin resultados",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
-            String tipo = obtenerTipoMaterial(m);
-            String estado = m.isDisponible() ? "Disponible" : "Prestado";
+            String tipo = m.getClass().getSimpleName();
+            String estado = m.isDisponible() ? "Disponible" : "No disponible";
+            String imagen = (m.getImagen() == null || m.getImagen().isEmpty()) ? "Sin imagen" : m.getImagen();
             String detalle = obtenerDetalleEspecifico(m);
 
             areaResultadoBusqueda.setText(
                     "Código          : " + m.getCodigo() + "\n"
-                    + "Tipo            : " + tipo + "\n"
                     + "Título          : " + m.getTitulo() + "\n"
+                    + "Tipo            : " + tipo + "\n"
                     + "Año Publicación : " + m.getPublicacion() + "\n"
-                    + "Estado          : " + estado + "\n"
-                    + "Plazo Préstamo  : " + m.plazoPrestamo() + " días\n"
-                    + "Multa Diaria    : " + m.multaDiaria() + "\n"
-                    + "Detalle         : " + detalle
+                    + "Imagen          : " + imagen + "\n"
+                    + "Disponibilidad  : " + estado + "\n"
+                    + "Plazo Préstamo  : " + m.plazoPrestamo() + " días naturales\n"
+                    + "Multa Diaria    : " + m.multaDiaria() + " €\n"
+                    + "Dato Específico : " + detalle
             );
+            JOptionPane.showMessageDialog(this,
+                    "Material localizado: " + m.getTitulo() + " (" + tipo + ")",
+                    "Material encontrado",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -606,9 +620,10 @@ public class formulario extends javax.swing.JFrame {
                 txtSolicitante.setText("");
                 actualizarInterfaz();
                 JOptionPane.showMessageDialog(this,
-                        "Préstamo realizado con éxito.\nFecha prevista de devolución: "
-                        + prestamo.formatearFecha(prestamo.getFechaPrevista()),
-                        "Préstamo registrado",
+                        "Préstamo registrado correctamente.\n"
+                        + "Fecha de préstamo: " + prestamo.formatearFecha(prestamo.getFechaPrestamo()) + "\n"
+                        + "Fecha prevista de devolución: " + prestamo.formatearFecha(prestamo.getFechaPrevista()),
+                        "Préstamo confirmado",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(this,
@@ -655,9 +670,10 @@ public class formulario extends javax.swing.JFrame {
                 actualizarInterfaz();
                 JOptionPane.showMessageDialog(this,
                         "Devolución procesada correctamente.\n"
-                        + "Fecha devolución: " + devuelto.formatearFecha(devuelto.getFechaDevolucion()) + "\n"
+                        + "Fecha prevista: " + devuelto.formatearFecha(devuelto.getFechaPrevista()) + "\n"
+                        + "Fecha de devolución: " + devuelto.formatearFecha(devuelto.getFechaDevolucion()) + "\n"
                         + "Días de retraso: " + devuelto.getDiasRetraso() + "\n"
-                        + "Multa: " + devuelto.getMulta(),
+                        + "Multa aplicable: " + devuelto.getMulta() + " €",
                         "Devolución exitosa",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (IllegalArgumentException e) {
@@ -694,6 +710,19 @@ public class formulario extends javax.swing.JFrame {
         }
     }
 
+    private void actualizarPlazoSeleccionado() {
+        if (cbMaterialesDisponibles.getItemCount() == 0 || cbMaterialesDisponibles.getSelectedItem() == null) {
+            txtDiasPrestamo.setText("-");
+            return;
+        }
+        String seleccion = (String) cbMaterialesDisponibles.getSelectedItem();
+        String codigo = seleccion.split(" - ")[0].trim();
+        MaterialBibliografica mat = biblioteca.buscarPorCodigo(codigo);
+        if (mat != null) {
+            txtDiasPrestamo.setText(String.valueOf(mat.plazoPrestamo()));
+        }
+    }
+
     private void limpiarCampos() {
         txtCodigo.setText("");
         txtTitulo.setText("");
@@ -709,17 +738,17 @@ public class formulario extends javax.swing.JFrame {
         ArrayList<MaterialBibliografica> lista = biblioteca.getMateriales();
         for (int i = 0; i < lista.size(); i++) {
             MaterialBibliografica m = lista.get(i);
-            String tipo = obtenerTipoMaterial(m);
-            String autorResp = obtenerResponsable(m);
-            String estado = m.isDisponible() ? "Disponible" : "Prestado";
+            String tipo = m.getClass().getSimpleName();
+            String imagen = (m.getImagen() == null || m.getImagen().isEmpty()) ? "Sin imagen" : m.getImagen();
+            String estado = m.isDisponible() ? "Disponible" : "No disponible";
             String detalles = obtenerDetalleEspecifico(m);
 
             Object[] fila = new Object[]{
                 m.getCodigo(),
-                tipo,
                 m.getTitulo(),
-                autorResp,
+                tipo,
                 m.getPublicacion(),
+                imagen,
                 estado,
                 detalles
             };
@@ -733,11 +762,7 @@ public class formulario extends javax.swing.JFrame {
             cbMaterialesDisponibles.addItem(m.getCodigo() + " - " + m.getTitulo());
         }
 
-        if (disponibles.size() > 0) {
-            txtDiasPrestamo.setText(String.valueOf(disponibles.get(0).plazoPrestamo()));
-        } else {
-            txtDiasPrestamo.setText("-");
-        }
+        actualizarPlazoSeleccionado();
         txtDiasPrestamo.setEditable(false);
 
         cbPrestamosActivos.removeAllItems();
@@ -764,42 +789,22 @@ public class formulario extends javax.swing.JFrame {
                     + "Título          : " + p.getMaterial().getTitulo() + "\n"
                     + "Fecha Préstamo  : " + p.formatearFecha(p.getFechaPrestamo()) + "\n"
                     + "Fecha Prevista  : " + p.formatearFecha(p.getFechaPrevista()) + "\n"
-                    + "Plazo           : " + p.getMaterial().plazoPrestamo() + " días\n"
-                    + "Multa Diaria    : " + p.getMaterial().multaDiaria()
+                    + "Plazo           : " + p.getMaterial().plazoPrestamo() + " días naturales\n"
+                    + "Multa Diaria    : " + p.getMaterial().multaDiaria() + " €"
             );
         }
-    }
-
-    private String obtenerTipoMaterial(MaterialBibliografica m) {
-        if (m instanceof Libro) {
-            return "Libro";
-        } else if (m instanceof Revista) {
-            return "Revista";
-        } else if (m instanceof Tesis) {
-            return "Tesis";
-        }
-        return "Material";
-    }
-
-    private String obtenerResponsable(MaterialBibliografica m) {
-        if (m instanceof Libro) {
-            return ((Libro) m).getAutor();
-        } else if (m instanceof Tesis) {
-            return ((Tesis) m).getTesista();
-        }
-        return "-";
     }
 
     private String obtenerDetalleEspecifico(MaterialBibliografica m) {
         if (m instanceof Libro) {
             Libro l = (Libro) m;
-            return "Autor: " + l.getAutor() + " | Plazo: " + l.plazoPrestamo() + "d";
+            return "Autor: " + l.getAutor();
         } else if (m instanceof Revista) {
             Revista r = (Revista) m;
-            return "Edición N°: " + r.getNumeroEdicion() + " | Plazo: " + r.plazoPrestamo() + "d";
+            return "Edición N°: " + r.getNumeroEdicion();
         } else if (m instanceof Tesis) {
             Tesis t = (Tesis) m;
-            return "Tesista: " + t.getTesista() + " | Plazo: " + t.plazoPrestamo() + "d";
+            return "Tesista: " + t.getTesista();
         }
         return "";
     }
