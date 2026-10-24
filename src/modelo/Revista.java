@@ -1,4 +1,6 @@
-package laboratorio_semana2;
+package modelo;
+
+import modelo.MaterialBibliografico;
 
 /**
  *

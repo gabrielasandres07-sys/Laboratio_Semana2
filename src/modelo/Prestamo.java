@@ -1,4 +1,4 @@
-package laboratorio_semana2;
+package modelo;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -11,6 +11,7 @@ package laboratorio_semana2;
  */
 
 
+import modelo.MaterialBibliografico;
 import java.util.Calendar;
 public class Prestamo {
 

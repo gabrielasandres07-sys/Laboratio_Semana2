@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package laboratorio_semana2;
+package logica;
 
 /**
  *
@@ -10,6 +10,8 @@ package laboratorio_semana2;
  */
 
 
+import modelo.Prestamo;
+import modelo.MaterialBibliografico;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -62,6 +64,10 @@ public class Biblioteca {
     }
 
     public Prestamo prestar(String codigo){
+        return prestar(codigo, Calendar.getInstance());
+    }
+
+    public Prestamo prestar(String codigo, Calendar fecha){
         MaterialBibliografico material = buscarPorCodigo(codigo);
         if (material == null) {
             throw new IllegalArgumentException("No existe un material con el código " + codigo + ".");
@@ -69,13 +75,17 @@ public class Biblioteca {
         if (!material.isDisponible()) {
             throw new IllegalArgumentException("El material " + material.getCodigo() + " no está disponible.");
         }
-        Prestamo prestamo = new Prestamo(material);
+        Prestamo prestamo = new Prestamo(material, fecha);
         prestamos.add(prestamo);
         material.setDisponible(false);
         return prestamo;
     }
 
     public Prestamo devolver(String codigo){
+        return devolver(codigo, Calendar.getInstance());
+    }
+
+    public Prestamo devolver(String codigo, Calendar fecha){
         MaterialBibliografico material = buscarPorCodigo(codigo);
         if (material == null) {
             throw new IllegalArgumentException("No existe un material con el código " + codigo + ".");
@@ -84,7 +94,7 @@ public class Biblioteca {
         if (prestamo == null) {
             throw new IllegalArgumentException("El material " + material.getCodigo() + " no tiene un préstamo activo.");
         }
-        if (prestamo.registrarDevolucion()) {
+        if (prestamo.registrarDevolucion(fecha)) {
             material.setDisponible(true);
         }
         return prestamo;

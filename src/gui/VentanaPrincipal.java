@@ -1,10 +1,10 @@
-package laboratorio_semana2;
+package gui;
 
 /**24/10/2026
  *
  *   Grupo 1, Kendrick, Gabriela, Ricardo
  */
-public class Laboratorio_Semana2 {
+public class VentanaPrincipal {
     
     public static void main(String[] args) {
         // TODO code application logic here
