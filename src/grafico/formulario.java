@@ -28,7 +28,7 @@ public class formulario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane = new javax.swing.JTabbedPane();
         panelRegistro = new javax.swing.JPanel();
         lblTipo = new javax.swing.JLabel();
         cbtipoMaterial = new javax.swing.JComboBox<>();
@@ -46,6 +46,15 @@ public class formulario extends javax.swing.JFrame {
         txtPaginas = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
+        panelBusqueda = new javax.swing.JPanel();
+        lblBuscarCodigo = new javax.swing.JLabel();
+        txtBuscarCodigo = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        jScrollPaneBusqueda = new javax.swing.JScrollPane();
+        areaResultadoBusqueda = new javax.swing.JTextArea();
+        jScrollPaneTabla = new javax.swing.JScrollPane();
+        tablaMateriales = new javax.swing.JTable();
+        labelTabla = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Gestión de Materiales y Préstamos");
@@ -116,7 +125,7 @@ public class formulario extends javax.swing.JFrame {
                     .addComponent(txtCodigo)
                     .addComponent(txtAutor)
                     .addComponent(txtEdit))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         panelRegistroLayout.setVerticalGroup(
             panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,23 +157,97 @@ public class formulario extends javax.swing.JFrame {
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("1. Registro de Material", panelRegistro);
+        jTabbedPane.addTab("1. Registro de Material", panelRegistro);
+
+        lblBuscarCodigo.setText("Código a buscar:");
+
+        btnBuscar.setText("Iniciar Consulta");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        areaResultadoBusqueda.setEditable(false);
+        areaResultadoBusqueda.setColumns(20);
+        areaResultadoBusqueda.setRows(5);
+        jScrollPaneBusqueda.setViewportView(areaResultadoBusqueda);
+
+        javax.swing.GroupLayout panelBusquedaLayout = new javax.swing.GroupLayout(panelBusqueda);
+        panelBusqueda.setLayout(panelBusquedaLayout);
+        panelBusquedaLayout.setHorizontalGroup(
+            panelBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBusquedaLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(panelBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelBusquedaLayout.createSequentialGroup()
+                        .addComponent(lblBuscarCodigo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelBusquedaLayout.setVerticalGroup(
+            panelBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBusquedaLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(panelBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblBuscarCodigo)
+                    .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPaneBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        jTabbedPane.addTab("2. Búsqueda", panelBusqueda);
+
+        tablaMateriales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Tipo", "Título", "Autor", "Año", "Estado", "Detalles Específicos"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPaneTabla.setViewportView(tablaMateriales);
+
+        labelTabla.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        labelTabla.setText("Tabla de materiables");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneTabla)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(274, Short.MAX_VALUE))
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(labelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -183,6 +266,10 @@ public class formulario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbtipoMaterialActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -191,20 +278,29 @@ public class formulario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea areaResultadoBusqueda;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cbtipoMaterial;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane jScrollPaneBusqueda;
+    private javax.swing.JScrollPane jScrollPaneTabla;
+    private javax.swing.JTabbedPane jTabbedPane;
+    private javax.swing.JLabel labelTabla;
     private javax.swing.JLabel lblAnio;
     private javax.swing.JLabel lblAutor;
+    private javax.swing.JLabel lblBuscarCodigo;
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblEditorial;
     private javax.swing.JLabel lblPaginas;
     private javax.swing.JLabel lblTipo;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JPanel panelBusqueda;
     private javax.swing.JPanel panelRegistro;
+    private javax.swing.JTable tablaMateriales;
     private javax.swing.JTextField txtAnio;
     private javax.swing.JTextField txtAutor;
+    private javax.swing.JTextField txtBuscarCodigo;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtEdit;
     private javax.swing.JTextField txtPaginas;
