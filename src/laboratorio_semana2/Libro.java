@@ -9,9 +9,9 @@ public class Libro extends MaterialBibliografico {
     private String autor;
 
     public Libro(String codigo, String titulo,
-            int anioPublicacion, String imagen, String autor) {
+            int publicacion, String imagen, String autor) {
 
-        super(codigo, titulo, anioPublicacion, imagen);
+        super(codigo, titulo, publicacion, imagen);
         this.autor = autor;
     }
 
