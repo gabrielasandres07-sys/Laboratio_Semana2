@@ -4,6 +4,17 @@
  */
 package grafico;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import logica.Biblioteca;
+import modelo.Libro;
+import modelo.MaterialBibliografica;
+import modelo.Prestamo;
+import modelo.Revista;
+import modelo.Tesis;
+
 /**
  *
  * @author Ricardo
@@ -11,12 +22,18 @@ package grafico;
 public class formulario extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(formulario.class.getName());
+    private Biblioteca biblioteca;
+    private DefaultTableModel modeloTabla;
 
     /**
      * Creates new form formulario
      */
     public formulario() {
         initComponents();
+        biblioteca = new Biblioteca();
+        modeloTabla = (DefaultTableModel) tablaMateriales.getModel();
+        actualizarCamposPorTipo();
+        actualizarInterfaz();
     }
 
     /**
@@ -384,32 +401,408 @@ public class formulario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        // TODO add your handling code here:
+        String tipo = (String) cbtipoMaterial.getSelectedItem();
+        String codigo = txtCodigo.getText().trim();
+        String titulo = txtTitulo.getText().trim();
+        String anioTexto = txtAnio.getText().trim();
+        String autorOTesista = txtAutor.getText().trim();
+        String imagen = txtEdit.getText().trim();
+        String edicionTexto = txtPaginas.getText().trim();
+
+        if (codigo.isEmpty() || titulo.isEmpty() || anioTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "El código, el título y el año de publicación son obligatorios y no pueden ser solo espacios.",
+                    "Campos vacíos",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int anio;
+        try {
+            anio = Integer.parseInt(anioTexto);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "El año de publicación debe ser un número entero válido.",
+                    "Error de formato",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int anioActual = Calendar.getInstance().get(Calendar.YEAR);
+        if (anio < 1450 || anio > anioActual) {
+            JOptionPane.showMessageDialog(this,
+                    "El año de publicación debe estar entre 1450 y " + anioActual + ".",
+                    "Año fuera de rango",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (biblioteca.buscarPorCodigo(codigo) != null) {
+            JOptionPane.showMessageDialog(this,
+                    "Ya existe un material registrado con el código: " + codigo,
+                    "Código duplicado",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        MaterialBibliografica nuevoMaterial = null;
+
+        if ("Libro".equals(tipo)) {
+            if (autorOTesista.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Debe ingresar el autor del libro.",
+                        "Campo obligatorio",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            nuevoMaterial = new Libro(codigo, titulo, anio, imagen, autorOTesista);
+        } else if ("Revista".equals(tipo)) {
+            if (edicionTexto.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Debe ingresar el número de edición de la revista.",
+                        "Campo obligatorio",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            int edicion;
+            try {
+                edicion = Integer.parseInt(edicionTexto);
+                if (edicion <= 0) {
+                    JOptionPane.showMessageDialog(this,
+                            "El número de edición debe ser mayor que cero.",
+                            "Valor inválido",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this,
+                        "El número de edición debe ser numérico.",
+                        "Error de formato",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            nuevoMaterial = new Revista(codigo, titulo, anio, imagen, edicion);
+        } else if ("Tesis".equals(tipo)) {
+            if (autorOTesista.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Debe ingresar el nombre del tesista.",
+                        "Campo obligatorio",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            nuevoMaterial = new Tesis(codigo, titulo, anio, imagen, autorOTesista);
+        }
+
+        try {
+            biblioteca.registrar(nuevoMaterial);
+            limpiarCampos();
+            actualizarInterfaz();
+            JOptionPane.showMessageDialog(this,
+                    "Material registrado correctamente.",
+                    "Registro exitoso",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this,
+                    e.getMessage(),
+                    "Error al registrar",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
+        int confirmar = JOptionPane.showConfirmDialog(this,
+                "¿Desea limpiar los campos del formulario?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+        if (confirmar == JOptionPane.YES_OPTION) {
+            limpiarCampos();
+        }
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void cbtipoMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbtipoMaterialActionPerformed
-        // TODO add your handling code here:
+        actualizarCamposPorTipo();
     }//GEN-LAST:event_cbtipoMaterialActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        String codigo = txtBuscarCodigo.getText().trim();
+        if (codigo.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese un código para buscar.",
+                    "Campo vacío",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        MaterialBibliografica m = biblioteca.buscarPorCodigo(codigo);
+        if (m == null) {
+            areaResultadoBusqueda.setText("No se encontró ningún material con el código: " + codigo);
+            JOptionPane.showMessageDialog(this,
+                    "El material con código '" + codigo + "' no existe.",
+                    "Sin resultados",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            String tipo = obtenerTipoMaterial(m);
+            String estado = m.isDisponible() ? "Disponible" : "Prestado";
+            String detalle = obtenerDetalleEspecifico(m);
+
+            areaResultadoBusqueda.setText(
+                    "Código          : " + m.getCodigo() + "\n"
+                    + "Tipo            : " + tipo + "\n"
+                    + "Título          : " + m.getTitulo() + "\n"
+                    + "Año Publicación : " + m.getPublicacion() + "\n"
+                    + "Estado          : " + estado + "\n"
+                    + "Plazo Préstamo  : " + m.plazoPrestamo() + " días\n"
+                    + "Multa Diaria    : " + m.multaDiaria() + "\n"
+                    + "Detalle         : " + detalle
+            );
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnPrestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestarActionPerformed
-        // TODO add your handling code here:
+        if (cbMaterialesDisponibles.getItemCount() == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay materiales disponibles para préstamo en este momento.",
+                    "Sin materiales disponibles",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String solicitante = txtSolicitante.getText().trim();
+        if (solicitante.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe ingresar el nombre del solicitante.",
+                    "Campo vacío",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String seleccion = (String) cbMaterialesDisponibles.getSelectedItem();
+        String codigo = seleccion.split(" - ")[0].trim();
+
+        MaterialBibliografica mat = biblioteca.buscarPorCodigo(codigo);
+        if (mat == null) {
+            JOptionPane.showMessageDialog(this,
+                    "El material seleccionado no existe.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!mat.isDisponible()) {
+            JOptionPane.showMessageDialog(this,
+                    "El material seleccionado no está disponible.",
+                    "No disponible",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirmar = JOptionPane.showConfirmDialog(this,
+                "¿Confirma el préstamo de '" + mat.getTitulo() + "' para " + solicitante + "?",
+                "Confirmar préstamo",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmar == JOptionPane.YES_OPTION) {
+            try {
+                Prestamo prestamo = biblioteca.prestar(codigo, Calendar.getInstance());
+                txtSolicitante.setText("");
+                actualizarInterfaz();
+                JOptionPane.showMessageDialog(this,
+                        "Préstamo realizado con éxito.\nFecha prevista de devolución: "
+                        + prestamo.formatearFecha(prestamo.getFechaPrevista()),
+                        "Préstamo registrado",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(this,
+                        e.getMessage(),
+                        "No se pudo prestar",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnPrestarActionPerformed
 
     private void cbPrestamosActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPrestamosActivosActionPerformed
-        // TODO add your handling code here:
+        mostrarDetallePrestamoActivo();
     }//GEN-LAST:event_cbPrestamosActivosActionPerformed
 
     private void btnDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverActionPerformed
-        // TODO add your handling code here:
+        if (cbPrestamosActivos.getItemCount() == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay préstamos activos para procesar devolución.",
+                    "Sin préstamos activos",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String seleccion = (String) cbPrestamosActivos.getSelectedItem();
+        String codigo = seleccion.split(" - ")[0].trim();
+
+        Prestamo prestamoActivo = biblioteca.buscarPrestamoActivo(codigo);
+        if (prestamoActivo == null) {
+            JOptionPane.showMessageDialog(this,
+                    "El material no tiene un préstamo activo.",
+                    "Sin préstamo activo",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirmar = JOptionPane.showConfirmDialog(this,
+                "¿Confirma la devolución del material '" + prestamoActivo.getMaterial().getTitulo() + "'?",
+                "Confirmar devolución",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmar == JOptionPane.YES_OPTION) {
+            try {
+                Prestamo devuelto = biblioteca.devolver(codigo, Calendar.getInstance());
+                actualizarInterfaz();
+                JOptionPane.showMessageDialog(this,
+                        "Devolución procesada correctamente.\n"
+                        + "Fecha devolución: " + devuelto.formatearFecha(devuelto.getFechaDevolucion()) + "\n"
+                        + "Días de retraso: " + devuelto.getDiasRetraso() + "\n"
+                        + "Multa: " + devuelto.getMulta(),
+                        "Devolución exitosa",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(this,
+                        e.getMessage(),
+                        "Error en devolución",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnDevolverActionPerformed
+
+    private void actualizarCamposPorTipo() {
+        String tipo = (String) cbtipoMaterial.getSelectedItem();
+        lblEditorial.setText("Imagen (opcional):");
+
+        if ("Libro".equals(tipo)) {
+            lblAutor.setText("Autor:");
+            txtAutor.setEnabled(true);
+            lblPaginas.setText("N° Edición (No aplica):");
+            txtPaginas.setText("");
+            txtPaginas.setEnabled(false);
+        } else if ("Revista".equals(tipo)) {
+            lblAutor.setText("Autor (No aplica):");
+            txtAutor.setText("");
+            txtAutor.setEnabled(false);
+            lblPaginas.setText("Número de Edición:");
+            txtPaginas.setEnabled(true);
+        } else if ("Tesis".equals(tipo)) {
+            lblAutor.setText("Tesista:");
+            txtAutor.setEnabled(true);
+            lblPaginas.setText("N° Edición (No aplica):");
+            txtPaginas.setText("");
+            txtPaginas.setEnabled(false);
+        }
+    }
+
+    private void limpiarCampos() {
+        txtCodigo.setText("");
+        txtTitulo.setText("");
+        txtAutor.setText("");
+        txtAnio.setText("");
+        txtEdit.setText("");
+        txtPaginas.setText("");
+        txtCodigo.requestFocus();
+    }
+
+    private void actualizarInterfaz() {
+        modeloTabla.setRowCount(0);
+        ArrayList<MaterialBibliografica> lista = biblioteca.getMateriales();
+        for (int i = 0; i < lista.size(); i++) {
+            MaterialBibliografica m = lista.get(i);
+            String tipo = obtenerTipoMaterial(m);
+            String autorResp = obtenerResponsable(m);
+            String estado = m.isDisponible() ? "Disponible" : "Prestado";
+            String detalles = obtenerDetalleEspecifico(m);
+
+            Object[] fila = new Object[]{
+                m.getCodigo(),
+                tipo,
+                m.getTitulo(),
+                autorResp,
+                m.getPublicacion(),
+                estado,
+                detalles
+            };
+            modeloTabla.addRow(fila);
+        }
+
+        cbMaterialesDisponibles.removeAllItems();
+        ArrayList<MaterialBibliografica> disponibles = biblioteca.getDisponibles();
+        for (int i = 0; i < disponibles.size(); i++) {
+            MaterialBibliografica m = disponibles.get(i);
+            cbMaterialesDisponibles.addItem(m.getCodigo() + " - " + m.getTitulo());
+        }
+
+        if (disponibles.size() > 0) {
+            txtDiasPrestamo.setText(String.valueOf(disponibles.get(0).plazoPrestamo()));
+        } else {
+            txtDiasPrestamo.setText("-");
+        }
+        txtDiasPrestamo.setEditable(false);
+
+        cbPrestamosActivos.removeAllItems();
+        ArrayList<Prestamo> activos = biblioteca.getPrestamosActivos();
+        for (int i = 0; i < activos.size(); i++) {
+            Prestamo p = activos.get(i);
+            cbPrestamosActivos.addItem(p.getMaterial().getCodigo() + " - " + p.getMaterial().getTitulo());
+        }
+
+        mostrarDetallePrestamoActivo();
+    }
+
+    private void mostrarDetallePrestamoActivo() {
+        if (cbPrestamosActivos.getItemCount() == 0 || cbPrestamosActivos.getSelectedItem() == null) {
+            areaDetallePrestamo.setText("No hay préstamos activos seleccionados.");
+            return;
+        }
+        String seleccion = (String) cbPrestamosActivos.getSelectedItem();
+        String codigo = seleccion.split(" - ")[0].trim();
+        Prestamo p = biblioteca.buscarPrestamoActivo(codigo);
+        if (p != null) {
+            areaDetallePrestamo.setText(
+                    "Código Material : " + p.getMaterial().getCodigo() + "\n"
+                    + "Título          : " + p.getMaterial().getTitulo() + "\n"
+                    + "Fecha Préstamo  : " + p.formatearFecha(p.getFechaPrestamo()) + "\n"
+                    + "Fecha Prevista  : " + p.formatearFecha(p.getFechaPrevista()) + "\n"
+                    + "Plazo           : " + p.getMaterial().plazoPrestamo() + " días\n"
+                    + "Multa Diaria    : " + p.getMaterial().multaDiaria()
+            );
+        }
+    }
+
+    private String obtenerTipoMaterial(MaterialBibliografica m) {
+        if (m instanceof Libro) {
+            return "Libro";
+        } else if (m instanceof Revista) {
+            return "Revista";
+        } else if (m instanceof Tesis) {
+            return "Tesis";
+        }
+        return "Material";
+    }
+
+    private String obtenerResponsable(MaterialBibliografica m) {
+        if (m instanceof Libro) {
+            return ((Libro) m).getAutor();
+        } else if (m instanceof Tesis) {
+            return ((Tesis) m).getTesista();
+        }
+        return "-";
+    }
+
+    private String obtenerDetalleEspecifico(MaterialBibliografica m) {
+        if (m instanceof Libro) {
+            Libro l = (Libro) m;
+            return "Autor: " + l.getAutor() + " | Plazo: " + l.plazoPrestamo() + "d";
+        } else if (m instanceof Revista) {
+            Revista r = (Revista) m;
+            return "Edición N°: " + r.getNumeroEdicion() + " | Plazo: " + r.plazoPrestamo() + "d";
+        } else if (m instanceof Tesis) {
+            Tesis t = (Tesis) m;
+            return "Tesista: " + t.getTesista() + " | Plazo: " + t.plazoPrestamo() + "d";
+        }
+        return "";
+    }
 
     /**
      * @param args the command line arguments
