@@ -52,6 +52,14 @@ public class formulario extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         jScrollPaneBusqueda = new javax.swing.JScrollPane();
         areaResultadoBusqueda = new javax.swing.JTextArea();
+        panelPrestamos = new javax.swing.JPanel();
+        lblDisponible = new javax.swing.JLabel();
+        cbMaterialesDisponibles = new javax.swing.JComboBox<>();
+        lblSolicitante = new javax.swing.JLabel();
+        txtSolicitante = new javax.swing.JTextField();
+        lblDias = new javax.swing.JLabel();
+        txtDiasPrestamo = new javax.swing.JTextField();
+        btnPrestar = new javax.swing.JButton();
         jScrollPaneTabla = new javax.swing.JScrollPane();
         tablaMateriales = new javax.swing.JTable();
         labelTabla = new javax.swing.JLabel();
@@ -154,7 +162,7 @@ public class formulario extends javax.swing.JFrame {
                     .addComponent(txtPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiar)
                     .addComponent(btnRegistrar))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         jTabbedPane.addTab("1. Registro de Material", panelRegistro);
@@ -199,10 +207,69 @@ public class formulario extends javax.swing.JFrame {
                     .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jTabbedPane.addTab("2. Búsqueda", panelBusqueda);
+
+        lblDisponible.setText("Material Disponible:");
+
+        lblSolicitante.setText("Nombre del Solicitante:");
+
+        lblDias.setText("Días de Préstamo:");
+
+        txtDiasPrestamo.setText("7");
+
+        btnPrestar.setText("Iniciar Préstamo");
+        btnPrestar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrestarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelPrestamosLayout = new javax.swing.GroupLayout(panelPrestamos);
+        panelPrestamos.setLayout(panelPrestamosLayout);
+        panelPrestamosLayout.setHorizontalGroup(
+            panelPrestamosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPrestamosLayout.createSequentialGroup()
+                .addGroup(panelPrestamosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPrestamosLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(panelPrestamosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDisponible)
+                            .addComponent(lblSolicitante)
+                            .addComponent(lblDias))
+                        .addGap(25, 25, 25)
+                        .addGroup(panelPrestamosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbMaterialesDisponibles, 0, 360, Short.MAX_VALUE)
+                            .addComponent(txtSolicitante)
+                            .addComponent(txtDiasPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelPrestamosLayout.createSequentialGroup()
+                        .addGap(303, 303, 303)
+                        .addComponent(btnPrestar)))
+                .addContainerGap(264, Short.MAX_VALUE))
+        );
+        panelPrestamosLayout.setVerticalGroup(
+            panelPrestamosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPrestamosLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(panelPrestamosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDisponible)
+                    .addComponent(cbMaterialesDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelPrestamosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSolicitante)
+                    .addComponent(txtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelPrestamosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDias)
+                    .addComponent(txtDiasPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addComponent(btnPrestar)
+                .addGap(34, 34, 34))
+        );
+
+        jTabbedPane.addTab("3. Préstamos", panelPrestamos);
 
         tablaMateriales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -246,7 +313,7 @@ public class formulario extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(labelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -270,6 +337,10 @@ public class formulario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnPrestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPrestarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -281,7 +352,9 @@ public class formulario extends javax.swing.JFrame {
     private javax.swing.JTextArea areaResultadoBusqueda;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnPrestar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JComboBox<String> cbMaterialesDisponibles;
     private javax.swing.JComboBox<String> cbtipoMaterial;
     private javax.swing.JScrollPane jScrollPaneBusqueda;
     private javax.swing.JScrollPane jScrollPaneTabla;
@@ -291,19 +364,25 @@ public class formulario extends javax.swing.JFrame {
     private javax.swing.JLabel lblAutor;
     private javax.swing.JLabel lblBuscarCodigo;
     private javax.swing.JLabel lblCodigo;
+    private javax.swing.JLabel lblDias;
+    private javax.swing.JLabel lblDisponible;
     private javax.swing.JLabel lblEditorial;
     private javax.swing.JLabel lblPaginas;
+    private javax.swing.JLabel lblSolicitante;
     private javax.swing.JLabel lblTipo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panelBusqueda;
+    private javax.swing.JPanel panelPrestamos;
     private javax.swing.JPanel panelRegistro;
     private javax.swing.JTable tablaMateriales;
     private javax.swing.JTextField txtAnio;
     private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtBuscarCodigo;
     private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtDiasPrestamo;
     private javax.swing.JTextField txtEdit;
     private javax.swing.JTextField txtPaginas;
+    private javax.swing.JTextField txtSolicitante;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }
