@@ -1,4 +1,4 @@
-
+package laboratorio_semana2;
 /**
  *
  * @author kendr
