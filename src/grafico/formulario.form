@@ -68,37 +68,42 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTipo" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblTitulo" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblAnio" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblPaginas" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="cbtipoMaterial" pref="200" max="32767" attributes="0"/>
-                          <Component id="txtTitulo" max="32767" attributes="0"/>
-                          <Component id="txtAnio" max="32767" attributes="0"/>
-                          <Component id="txtPaginas" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblCodigo" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblAutor" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblEditorial" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblTipo" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblTitulo" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblAnio" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblPaginas" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="cbtipoMaterial" pref="200" max="32767" attributes="0"/>
+                                  <Component id="txtTitulo" max="32767" attributes="0"/>
+                                  <Component id="txtAnio" max="32767" attributes="0"/>
+                                  <Component id="txtPaginas" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblCodigo" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblAutor" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblEditorial" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtCodigo" pref="216" max="32767" attributes="0"/>
+                                  <Component id="txtAutor" max="32767" attributes="0"/>
+                                  <Component id="txtEdit" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="256" max="-2" attributes="0"/>
                               <Component id="btnLimpiar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                               <Component id="btnRegistrar" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="txtCodigo" max="32767" attributes="0"/>
-                          <Component id="txtAutor" max="32767" attributes="0"/>
-                          <Component id="txtEdit" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="103" max="32767" attributes="0"/>
                   </Group>
@@ -132,10 +137,13 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblPaginas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtPaginas" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnRegistrar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="52" max="32767" attributes="0"/>
+                      <EmptySpace pref="14" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -215,7 +223,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnRegistrar">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Registrar Material"/>
+                <Property name="text" type="java.lang.String" value="Registrar material"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarActionPerformed"/>
@@ -277,7 +285,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnBuscar">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Iniciar Consulta"/>
+                <Property name="text" type="java.lang.String" value="Iniciar consulta"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
@@ -331,7 +339,7 @@
                               <Component id="btnPrestar" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="264" max="32767" attributes="0"/>
+                      <EmptySpace pref="266" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -363,7 +371,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblDisponible">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Material Disponible:"/>
+                <Property name="text" type="java.lang.String" value="Material disponible:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbMaterialesDisponibles">
@@ -378,7 +386,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblSolicitante">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nombre del Solicitante:"/>
+                <Property name="text" type="java.lang.String" value="Nombre del solicitante:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtSolicitante">
@@ -395,12 +403,98 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnPrestar">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Iniciar Pr&#xe9;stamo"/>
+                <Property name="text" type="java.lang.String" value="Iniciar pr&#xe9;stamo"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrestarActionPerformed"/>
               </Events>
             </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="panelDevoluciones">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="4. Devoluciones">
+                <Property name="tabTitle" type="java.lang.String" value="4. Devoluciones"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPaneDevolucion" alignment="0" min="-2" pref="715" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lblPrestamoActivo" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="cbPrestamosActivos" min="-2" pref="380" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="btnDevolver" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="65" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblPrestamoActivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbPrestamosActivos" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnDevolver" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jScrollPaneDevolucion" min="-2" pref="155" max="-2" attributes="0"/>
+                      <EmptySpace pref="19" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="lblPrestamoActivo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Pr&#xe9;stamo activo:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbPrestamosActivos">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbPrestamosActivosActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnDevolver">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Procesar devoluci&#xf3;n"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDevolverActionPerformed"/>
+              </Events>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPaneDevolucion">
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="areaDetallePrestamo">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="rows" type="int" value="5"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
       </SubComponents>

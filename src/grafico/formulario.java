@@ -60,6 +60,12 @@ public class formulario extends javax.swing.JFrame {
         lblDias = new javax.swing.JLabel();
         txtDiasPrestamo = new javax.swing.JTextField();
         btnPrestar = new javax.swing.JButton();
+        panelDevoluciones = new javax.swing.JPanel();
+        lblPrestamoActivo = new javax.swing.JLabel();
+        cbPrestamosActivos = new javax.swing.JComboBox<>();
+        btnDevolver = new javax.swing.JButton();
+        jScrollPaneDevolucion = new javax.swing.JScrollPane();
+        areaDetallePrestamo = new javax.swing.JTextArea();
         jScrollPaneTabla = new javax.swing.JScrollPane();
         tablaMateriales = new javax.swing.JTable();
         labelTabla = new javax.swing.JLabel();
@@ -95,7 +101,7 @@ public class formulario extends javax.swing.JFrame {
             }
         });
 
-        btnRegistrar.setText("Registrar Material");
+        btnRegistrar.setText("Registrar material");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarActionPerformed(evt);
@@ -107,32 +113,35 @@ public class formulario extends javax.swing.JFrame {
         panelRegistroLayout.setHorizontalGroup(
             panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRegistroLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTipo)
-                    .addComponent(lblTitulo)
-                    .addComponent(lblAnio)
-                    .addComponent(lblPaginas))
-                .addGap(18, 18, 18)
-                .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbtipoMaterial, 0, 200, Short.MAX_VALUE)
-                    .addComponent(txtTitulo)
-                    .addComponent(txtAnio)
-                    .addComponent(txtPaginas))
-                .addGap(35, 35, 35)
-                .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCodigo)
-                    .addComponent(lblAutor)
-                    .addComponent(lblEditorial))
-                .addGap(18, 18, 18)
-                .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelRegistroLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTipo)
+                            .addComponent(lblTitulo)
+                            .addComponent(lblAnio)
+                            .addComponent(lblPaginas))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbtipoMaterial, 0, 200, Short.MAX_VALUE)
+                            .addComponent(txtTitulo)
+                            .addComponent(txtAnio)
+                            .addComponent(txtPaginas))
+                        .addGap(35, 35, 35)
+                        .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCodigo)
+                            .addComponent(lblAutor)
+                            .addComponent(lblEditorial))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                            .addComponent(txtAutor)
+                            .addComponent(txtEdit)))
+                    .addGroup(panelRegistroLayout.createSequentialGroup()
+                        .addGap(256, 256, 256)
                         .addComponent(btnLimpiar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnRegistrar))
-                    .addComponent(txtCodigo)
-                    .addComponent(txtAutor)
-                    .addComponent(txtEdit))
+                        .addGap(31, 31, 31)
+                        .addComponent(btnRegistrar)))
                 .addContainerGap(103, Short.MAX_VALUE))
         );
         panelRegistroLayout.setVerticalGroup(
@@ -159,17 +168,19 @@ public class formulario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPaginas)
-                    .addComponent(txtPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLimpiar)
                     .addComponent(btnRegistrar))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jTabbedPane.addTab("1. Registro de Material", panelRegistro);
 
         lblBuscarCodigo.setText("Código a buscar:");
 
-        btnBuscar.setText("Iniciar Consulta");
+        btnBuscar.setText("Iniciar consulta");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -212,15 +223,15 @@ public class formulario extends javax.swing.JFrame {
 
         jTabbedPane.addTab("2. Búsqueda", panelBusqueda);
 
-        lblDisponible.setText("Material Disponible:");
+        lblDisponible.setText("Material disponible:");
 
-        lblSolicitante.setText("Nombre del Solicitante:");
+        lblSolicitante.setText("Nombre del solicitante:");
 
         lblDias.setText("Días de Préstamo:");
 
         txtDiasPrestamo.setText("7");
 
-        btnPrestar.setText("Iniciar Préstamo");
+        btnPrestar.setText("Iniciar préstamo");
         btnPrestar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrestarActionPerformed(evt);
@@ -247,7 +258,7 @@ public class formulario extends javax.swing.JFrame {
                     .addGroup(panelPrestamosLayout.createSequentialGroup()
                         .addGap(303, 303, 303)
                         .addComponent(btnPrestar)))
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addContainerGap(266, Short.MAX_VALUE))
         );
         panelPrestamosLayout.setVerticalGroup(
             panelPrestamosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,6 +281,57 @@ public class formulario extends javax.swing.JFrame {
         );
 
         jTabbedPane.addTab("3. Préstamos", panelPrestamos);
+
+        lblPrestamoActivo.setText("Préstamo activo:");
+
+        cbPrestamosActivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPrestamosActivosActionPerformed(evt);
+            }
+        });
+
+        btnDevolver.setText("Procesar devolución");
+        btnDevolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDevolverActionPerformed(evt);
+            }
+        });
+
+        areaDetallePrestamo.setEditable(false);
+        areaDetallePrestamo.setColumns(20);
+        areaDetallePrestamo.setRows(5);
+        jScrollPaneDevolucion.setViewportView(areaDetallePrestamo);
+
+        javax.swing.GroupLayout panelDevolucionesLayout = new javax.swing.GroupLayout(panelDevoluciones);
+        panelDevoluciones.setLayout(panelDevolucionesLayout);
+        panelDevolucionesLayout.setHorizontalGroup(
+            panelDevolucionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDevolucionesLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(panelDevolucionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelDevolucionesLayout.createSequentialGroup()
+                        .addComponent(lblPrestamoActivo)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbPrestamosActivos, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnDevolver)))
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+        panelDevolucionesLayout.setVerticalGroup(
+            panelDevolucionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDevolucionesLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(panelDevolucionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrestamoActivo)
+                    .addComponent(cbPrestamosActivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDevolver))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPaneDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        jTabbedPane.addTab("4. Devoluciones", panelDevoluciones);
 
         tablaMateriales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -341,6 +403,14 @@ public class formulario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPrestarActionPerformed
 
+    private void cbPrestamosActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPrestamosActivosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbPrestamosActivosActionPerformed
+
+    private void btnDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDevolverActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -349,14 +419,18 @@ public class formulario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea areaDetallePrestamo;
     private javax.swing.JTextArea areaResultadoBusqueda;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnDevolver;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnPrestar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cbMaterialesDisponibles;
+    private javax.swing.JComboBox<String> cbPrestamosActivos;
     private javax.swing.JComboBox<String> cbtipoMaterial;
     private javax.swing.JScrollPane jScrollPaneBusqueda;
+    private javax.swing.JScrollPane jScrollPaneDevolucion;
     private javax.swing.JScrollPane jScrollPaneTabla;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JLabel labelTabla;
@@ -368,10 +442,12 @@ public class formulario extends javax.swing.JFrame {
     private javax.swing.JLabel lblDisponible;
     private javax.swing.JLabel lblEditorial;
     private javax.swing.JLabel lblPaginas;
+    private javax.swing.JLabel lblPrestamoActivo;
     private javax.swing.JLabel lblSolicitante;
     private javax.swing.JLabel lblTipo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panelBusqueda;
+    private javax.swing.JPanel panelDevoluciones;
     private javax.swing.JPanel panelPrestamos;
     private javax.swing.JPanel panelRegistro;
     private javax.swing.JTable tablaMateriales;
