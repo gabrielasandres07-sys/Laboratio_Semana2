@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package grafico;
+package gui;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Biblioteca;
 import modelo.Libro;
-import modelo.MaterialBibliografica;
+import modelo.MaterialBibliografico;
 import modelo.Prestamo;
 import modelo.Revista;
 import modelo.Tesis;
@@ -453,7 +453,7 @@ public class formulario extends javax.swing.JFrame {
             return;
         }
 
-        MaterialBibliografica nuevoMaterial = null;
+        MaterialBibliografico nuevoMaterial = null;
 
         if ("Libro".equals(tipo)) {
             if (autorOTesista.isEmpty()) {
@@ -541,7 +541,7 @@ public class formulario extends javax.swing.JFrame {
             return;
         }
 
-        MaterialBibliografica m = biblioteca.buscarPorCodigo(codigo);
+        MaterialBibliografico m = biblioteca.buscarPorCodigo(codigo);
         if (m == null) {
             areaResultadoBusqueda.setText("No se encontró ningún material con el código: " + codigo);
             JOptionPane.showMessageDialog(this,
@@ -593,7 +593,7 @@ public class formulario extends javax.swing.JFrame {
         String seleccion = (String) cbMaterialesDisponibles.getSelectedItem();
         String codigo = seleccion.split(" - ")[0].trim();
 
-        MaterialBibliografica mat = biblioteca.buscarPorCodigo(codigo);
+        MaterialBibliografico mat = biblioteca.buscarPorCodigo(codigo);
         if (mat == null) {
             JOptionPane.showMessageDialog(this,
                     "El material seleccionado no existe.",
@@ -717,7 +717,7 @@ public class formulario extends javax.swing.JFrame {
         }
         String seleccion = (String) cbMaterialesDisponibles.getSelectedItem();
         String codigo = seleccion.split(" - ")[0].trim();
-        MaterialBibliografica mat = biblioteca.buscarPorCodigo(codigo);
+        MaterialBibliografico mat = biblioteca.buscarPorCodigo(codigo);
         if (mat != null) {
             txtDiasPrestamo.setText(String.valueOf(mat.plazoPrestamo()));
         }
@@ -735,9 +735,9 @@ public class formulario extends javax.swing.JFrame {
 
     private void actualizarInterfaz() {
         modeloTabla.setRowCount(0);
-        ArrayList<MaterialBibliografica> lista = biblioteca.getMateriales();
+        ArrayList<MaterialBibliografico> lista = biblioteca.getMateriales();
         for (int i = 0; i < lista.size(); i++) {
-            MaterialBibliografica m = lista.get(i);
+            MaterialBibliografico m = lista.get(i);
             String tipo = m.getClass().getSimpleName();
             String imagen = (m.getImagen() == null || m.getImagen().isEmpty()) ? "Sin imagen" : m.getImagen();
             String estado = m.isDisponible() ? "Disponible" : "No disponible";
@@ -756,9 +756,9 @@ public class formulario extends javax.swing.JFrame {
         }
 
         cbMaterialesDisponibles.removeAllItems();
-        ArrayList<MaterialBibliografica> disponibles = biblioteca.getDisponibles();
+        ArrayList<MaterialBibliografico> disponibles = biblioteca.getDisponibles();
         for (int i = 0; i < disponibles.size(); i++) {
-            MaterialBibliografica m = disponibles.get(i);
+            MaterialBibliografico m = disponibles.get(i);
             cbMaterialesDisponibles.addItem(m.getCodigo() + " - " + m.getTitulo());
         }
 
@@ -795,7 +795,7 @@ public class formulario extends javax.swing.JFrame {
         }
     }
 
-    private String obtenerDetalleEspecifico(MaterialBibliografica m) {
+    private String obtenerDetalleEspecifico(MaterialBibliografico m) {
         if (m instanceof Libro) {
             Libro l = (Libro) m;
             return "Autor: " + l.getAutor();
@@ -815,6 +815,8 @@ public class formulario extends javax.swing.JFrame {
     public static void main(String args[]) {
         new formulario().setVisible(true);
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaDetallePrestamo;
